@@ -1,0 +1,35 @@
+<app-navbar></app-navbar>
+
+<!-- <div class="bg-black text-white w-full border border-black">
+    <div class="max-w-[1200px] mx-auto">
+        <ul class="flex">
+            <li class="mr-2"><a class="px-3 py-2 hover:bg-gray-700 block cursor-pointer" routerLink="/">Inicio</a></li>
+            @if (loading) {
+                <li class="flex-auto"></li>
+                @if (user) {
+                    <li class=""><a class="px-3 py-2 hover:bg-gray-700 block cursor-pointer" (click)="logout()">Salir</a></li>
+                } @else {
+                    <li class=""><a class="px-3 py-2 hover:bg-gray-700 hover:text-white text-black bg-white block cursor-pointer" routerLink="/auth/signup">Registrarse</a></li>
+                    <li class=""><a class="px-3 py-2 hover:bg-gray-700 block cursor-pointer" routerLink="/auth/login">Entrar</a></li>
+                }
+            }
+        </ul>
+    </div>
+</div> -->
+
+@if (profile) {
+    <div class="h-[100vh] hero-container">
+    </div>
+    <div class="max-w-[1200px] mx-auto">
+        <h2 class="text-4xl text-bold">Sobre Nosotros</h2>
+        <div>
+            <p>{{ profile.description }}</p>
+        </div>
+    </div>
+} @else {
+    <div class="min-h-[100vh] flex justify-center items-center">
+        <div>
+            Este software aun no ha sido configurado. <a class="text-blue-500 underline" href="/auth/login">Indentifiquese</a> para continuar con la configuraci&oacute;n.
+        </div>
+    </div>
+}
