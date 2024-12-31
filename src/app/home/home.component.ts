@@ -1,18 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { BusinessProfilesService } from '../services/business-profiles.service';
 import { BusinessProfile } from '../interfaces/business-profile';
 import { VehiclesService } from '../services/vehicles.service';
 import { Vehicle } from '../interfaces/vehicle';
 import { AuthService } from '../services/auth.service';
 import { User } from '../interfaces/user';
-import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-home',
   imports: [
-    RouterLink,
-    NavbarComponent,
   ],
   templateUrl: './home.component.html',
   styles: ``
@@ -29,15 +25,6 @@ export class HomeComponent {
     business: false,
     vehicles: false,
     user: false,
-  }
-
-  logout() {
-    this.authService.logout().subscribe({
-      next: res => {
-        console.log(res);
-        alert('Hasta luego');
-      }
-    });
   }
 
   ngOnInit() {

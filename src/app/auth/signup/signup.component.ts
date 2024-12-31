@@ -47,7 +47,8 @@ export class SignupComponent implements OnInit {
       if (email && password) {
         this.loading = true;
         this.authService.signup({ email, password, roles: ['customer'] }).subscribe({
-          next: () => {
+          next: (res) => {
+            console.log(res)
             const next = this.route.snapshot.queryParamMap.get('next')
             this.router.navigate(next && next != '/' ? next.split('/') : ['/profile'], { queryParamsHandling: 'preserve' }).then(() => {
               this.loading = false;

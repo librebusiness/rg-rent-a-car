@@ -1,17 +1,89 @@
-<div class="overflow-hidden bg-[#333]" id="myTopnav">
-    <a class="float-left block text-[#f2f2f2] text-center px-4 py-3 text-lg" href="#home" class="active">Home</a>
-    <a class="float-left block text-[#f2f2f2] text-center px-4 py-3 text-lg" href="#news">News</a>
-    <a class="float-left block text-[#f2f2f2] text-center px-4 py-3 text-lg" href="#contact">Contact</a>
-    <div class="dropdown">
-        <button class="dropbtn">Dropdown
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-            <a class="float-left block text-[#f2f2f2] text-center px-4 py-3 text-lg" href="#">Link 1</a>
-            <a class="float-left block text-[#f2f2f2] text-center px-4 py-3 text-lg" href="#">Link 2</a>
-            <a class="float-left block text-[#f2f2f2] text-center px-4 py-3 text-lg" href="#">Link 3</a>
+<nav class="bg-gray-800 sticky top-0">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+            <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                <!-- Mobile menu button-->
+                <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+                    <i class="bi bi-list text-2xl"></i>
+                </button>
+            </div>
+            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div class="flex shrink-0 items-center">
+                    <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+                </div>
+                <div class="hidden sm:ml-6 sm:block">
+                    <div class="flex space-x-4">
+                        @if (user$ | async) {
+                            <a routerLink="/dashboard" [class.current-nav-link]="currentUrl == '/dashboard'" [class.nav-link]="currentUrl != '/dashboard'" aria-current="page">Panel de Control</a>
+                            @if (userRoles.includes('admin')) {
+                                <a routerLink="/users" [class.current-nav-link]="currentUrl == '/users'" [class.nav-link]="currentUrl != '/users'">Usuarios</a>
+                                <a routerLink="/vehicles" [class.current-nav-link]="currentUrl == '/vehicles'" [class.nav-link]="currentUrl != '/vehicles'">Veh&iacute;culos</a>
+                            }
+                            @if (userRoles.includes('manager')) {
+                                <a routerLink="/bookings" [class.current-nav-link]="currentUrl == '/bookings'" [class.nav-link]="currentUrl != '/bookings'">Reservaciones</a>
+                                <a routerLink="/customers" [class.current-nav-link]="currentUrl == '/customers'" [class.nav-link]="currentUrl != '/customers'">Clientes</a>
+                            }
+                            @if (userRoles.includes('customer')) {
+                                <a routerLink="/catalog" [class.current-nav-link]="currentUrl == '/catalog'" [class.nav-link]="currentUrl != '/catalog'">Catálogo</a>
+                            }
+                        } @else {
+                            <a routerLink="/" [class.current-nav-link]="currentUrl == '/'" [class.nav-link]="currentUrl != '/'">Inicio</a>
+                            <a routerLink="/services" [class.current-nav-link]="currentUrl == '/services'" [class.nav-link]="currentUrl != '/services'">Servicios</a>
+                            <a routerLink="/vehicles" [class.current-nav-link]="currentUrl == '/vehicles'" [class.nav-link]="currentUrl != '/vehicles'">Veh&iacute;culos</a>
+                            <a routerLink="/locations" [class.current-nav-link]="currentUrl == '/locations'" [class.nav-link]="currentUrl != '/locations'">Locales</a>
+                            <a routerLink="/contact" [class.current-nav-link]="currentUrl == '/contact'" [class.nav-link]="currentUrl != '/contact'">Contacto</a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                @if (user$ | async) {
+                    <button type="button"
+                        class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <i class="bi bi-notification"></i>
+                    </button>
+                    <div class="relative ml-3">
+                        <div>
+                            <button (mouseover)="userMenuOpen = !userMenuOpen" type="button"
+                                class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                                id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                <span class="absolute -inset-1.5"></span>
+                                <span class="sr-only">Open user menu</span>
+                                <img class="size-8 rounded-full" [src]="avatar" alt="">
+                            </button>
+                        </div>
+                        <div (click)="userMenuOpen = false" [class.block]="userMenuOpen" [class.hidden]="!userMenuOpen" #menu class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
+                            <a routerLink="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:outline-none hover:bg-gray-100" role="menuitem">Mi Perfil</a>
+                            <a routerLink="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:outline-none hover:bg-gray-100" role="menuitem">Ajustes</a>
+                            <button type="button" (click)="logout()" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:outline-none hover:bg-gray-100" role="menuitem">Salir</button>
+                        </div>
+                    </div>
+                } @else {
+                    <!-- <button routerLink="/auth/signup" type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"> -->
+                    <button class="rounded bg-red-500 py-1 px-3 text-white border border-red-500 hover:border-red-600 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" routerLink="/auth/signup" type="button">
+                        Registro
+                    </button>
+                    <button class="ml-2 rounded bg-gray-800 py-1 px-3 text-red-500 border border-red-500 hover:text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" routerLink="/auth/login" type="button">
+                        Ingresar
+                    </button>
+                }
+            </div>
         </div>
     </div>
-    <a class="float-left block text-[#f2f2f2] text-center px-4 py-3 text-lg" href="#about">About</a>
-    <a class="float-left block text-[#f2f2f2] text-center px-4 py-3 text-lg" href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
-</div>
+
+    <div class="sm:hidden" id="mobile-menu">
+        <div class="space-y-1 px-2 pb-3 pt-2">
+            @if (user$ | async) {
+                <a href="#" class="current-mobile-nav-link" aria-current="page">Dashboard</a>
+                <a href="#" class="mobile-nav-link">Team</a>
+                <a href="#" class="mobile-nav-link">Projects</a>
+                <a href="#" class="mobile-nav-link">Calendar</a>
+            } @else {
+                <a href="#" class="current-mobile-nav-link" aria-current="page">Dashboard</a>
+                <a href="#" class="mobile-nav-link">Team</a>
+                <a href="#" class="mobile-nav-link">Projects</a>
+                <a href="#" class="mobile-nav-link">Calendar</a>
+            }
+        </div>
+    </div>
+</nav>
